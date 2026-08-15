@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Team
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -23,3 +23,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'role')
+
+class TeamSerializer(serializers.ModelSerializer):
+    captain_username = serializers.ReadOnlyField(source='captain.username')
+
+    class Meta:
+        model = Team
+        fields = ('id', 'name', 'captain', 'captain_username', 'created_at')
+        read_only_fields = ('captain',)

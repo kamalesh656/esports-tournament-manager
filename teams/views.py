@@ -20,3 +20,16 @@ class MeView(generics.RetrieveAPIView):
 
 class CustomLoginView(TokenObtainPairView):
     permission_classes = [permissions.AllowAny]
+
+
+from .models import Team
+from .serializers import TeamSerializer
+
+
+class TeamListCreateView(generics.ListCreateAPIView):
+    queryset = Team.objects.all()
+    serializer_class = TeamSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(captain=self.request.user)
