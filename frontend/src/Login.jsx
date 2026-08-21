@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import api from './api';
 
-function Login() {
+function Login({ onSwitchToRegister }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -45,6 +45,12 @@ function Login() {
         <button type="submit" style={{ padding: '10px 20px' }}>Login</button>
       </form>
       {message && <p>{message}</p>}
+      <p>
+        Don't have an account?{' '}
+        <button onClick={onSwitchToRegister} style={{ cursor: 'pointer' }}>
+          Register here
+        </button>
+      </p>
     </div>
   );
 }
