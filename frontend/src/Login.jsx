@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import api from './api';
 
-function Login({ onSwitchToRegister }) {
+function Login({ onSwitchToRegister, onLoginSuccess }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -13,6 +13,7 @@ function Login({ onSwitchToRegister }) {
       localStorage.setItem('access_token', res.data.access);
       localStorage.setItem('refresh_token', res.data.refresh);
       setMessage('Login successful! ✅');
+      onLoginSuccess();
     } catch (err) {
       setMessage('Login failed. Check username/password.');
     }
