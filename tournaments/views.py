@@ -132,3 +132,8 @@ class RegistrationUpdateView(generics.UpdateAPIView):
         registration.status = new_status
         registration.save()
         return Response(RegistrationSerializer(registration).data)
+from django.http import JsonResponse
+
+
+def health_check(request):
+    return JsonResponse({"status": "ok"})
