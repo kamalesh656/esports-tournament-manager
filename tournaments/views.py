@@ -92,3 +92,43 @@ class GenerateBracketView(APIView):
             "message": f"Bracket generated with {len(matches_created)} matches",
             "matches": matches_created
         }, status=status.HTTP_201_CREATED)
+from rest_framework.permissions import IsAuthenticated
+
+
+class MyTournamentsView(generics.ListAPIView):
+    """Tournaments organized by the logged-in user"""
+    serializer_class = TournamentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Tournament.objects.filter(organizer=self.request.user)
+
+
+class TournamentRegistrationsView(generics.ListAPIView):
+    """All registrations for a specific tournament (organizer only)"""
+    serializer_class = RegistrationSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        tournament_id = self.kwargs['tournament_id']
+        return Registration.objects.filter(tournament_id=tournament_id)
+
+
+class RegistrationUpdateView(generics.UpdateAPIView):
+    """Approve/reject a registration - organizer only"""
+    queryset = Registration.objects.all()
+    serializer_class = RegistrationSerializer
+    permission_classes = [IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        registration = self.get_object()
+        if registration.tournament.organizer != request.user:
+            return Response({"error": "Only the tournament organizer can update this"}, status=status.HTTP_403_FORBIDDEN)
+
+        new_status = request.data.get('status')
+        if new_status not in ['approved', 'rejected', 'pending']:
+            return Response({"error": "Invalid status"}, status=status.HTTP_400_BAD_REQUEST)
+
+        registration.status = new_status
+        registration.save()
+        return Response(RegistrationSerializer(registration).data)

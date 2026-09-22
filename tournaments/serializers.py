@@ -17,7 +17,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Registration
         fields = ('id', 'tournament', 'tournament_name', 'team', 'team_name', 'status', 'registered_at')
-        read_only_fields = ('status',)
 
 
 class MatchSerializer(serializers.ModelSerializer):
