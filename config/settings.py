@@ -138,8 +138,8 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
-CORS_ALLOWED_ORIGINS = [
-    config('CORS_ALLOWED_ORIGIN', default='http://localhost:5173'),
-]
+CORS_ALLOWED_ORIGINS = config(
+    'CORS_ALLOWED_ORIGIN', default='http://localhost:5173'
+).split(',')
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
