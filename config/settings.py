@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'teams',
     'tournaments',
+    'drf_spectacular',
     
 ]
 
@@ -132,6 +133,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -143,3 +145,9 @@ CORS_ALLOWED_ORIGINS = config(
 ).split(',')
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Esports Tournament Manager API',
+    'DESCRIPTION': 'REST API for team registration, tournament management and automated bracket generation.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
