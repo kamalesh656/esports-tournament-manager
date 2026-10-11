@@ -141,3 +141,5 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     config('CORS_ALLOWED_ORIGIN', default='http://localhost:5173'),
 ]
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
